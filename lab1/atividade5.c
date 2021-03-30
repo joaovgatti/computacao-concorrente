@@ -3,7 +3,7 @@
 #include <pthread.h>
 
 #define NTHREADS 2
-#define N 1000
+#define N 10000
 
 typedef struct{
 	int intervalo[NTHREADS];
@@ -26,6 +26,17 @@ int* gerarArrayZerado(int *vetor){
 		vetor[i] = i - i;
 	}
 	return vetor;
+}
+
+void verificarResultado(int *vetorIncrementado){
+	int vetor0[N];
+	int *vetorZerado = gerarArrayZerado(vetor0);
+	for(int i =0; i < N;i++){
+		if(vetorZerado[i] != (vetorIncrementado[i]-1)){
+			printf("O resultado nao esta correto!\n");
+		}
+	}
+	printf("O resultado esta correto!\n");
 }
 
 
@@ -66,6 +77,8 @@ int main (){
 		printf("%d",vetor[i]);
 	}
 	printf("\n");
+
+	verificarResultado(vetor);
 
 
 	return 0;
