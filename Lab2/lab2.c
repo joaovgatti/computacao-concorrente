@@ -25,10 +25,9 @@ typedef struct {
 
 void* task(void *arg){
     tArgs *args = (tArgs*) arg;
-    int innerProduct = 0;
     for(int i = args->id; i < args->dim; i+= nthreads){
         for(int j = 0; j < args->dim; j++){
-            innerProduct = 0;
+            int innerProduct = 0;
             for(int k = 0; k < args->dim; k++){
                 innerProduct += matriz1[i*(args->dim) + k] * matriz2[k * (args->dim) + k];
             }
@@ -125,7 +124,7 @@ int main(int argc, char* argv[]){
 
     GET_TIME(beginning);
 
-    printf("Final Matrix\n");
+    //printf("Final Matrix\n");
     //printMatrix(matrizFinal, dim);
 
 
