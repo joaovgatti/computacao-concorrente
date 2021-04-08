@@ -18,19 +18,18 @@ double getApproximatePiValue(long long int numberOfElements){
 
 int main(int argc, char *argv[]){
 
-    long long int numberOfElements;
-
-    if(argc < 2){
-        printf("Entre com o numero %s de elementos",argv[0]);
+    if(argc < 2)
+    {
+        printf("Entre com o numero de de elementos para calcular a serie\n");
         return -1;
     }
 
-    numberOfElements = atoll(argv[1]);
+    long long int numberOfElements = atoll(argv[1]);
 
     double approximatePiValue = getApproximatePiValue(numberOfElements);
 
-    printf("O valor do Pi aproximado eh: %.15f\n",approximatePiValue);
-    printf( "Valor de PI na lib oficial do C: %.15f\n", M_PI);
+    printf("O valor de Pi aproximado é: %.15f\n",approximatePiValue);
+    printf("O Valor de Pi na lib do C é: %.15f\n", M_PI);
 
     return 0;
 }
