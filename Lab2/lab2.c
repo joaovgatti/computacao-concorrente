@@ -22,7 +22,7 @@ typedef struct {
 
 
 
-
+//funcao que cada thread ira executar
 void* task(void *arg){
     tArgs *args = (tArgs*) arg;
     for(int i = args->id; i < args->dim; i+= nthreads){
@@ -39,7 +39,7 @@ void* task(void *arg){
 
 
 
-
+//inicializa as matrizes
 void matrixSetUp(int* matrixA, int* matrixB, int* matrixC){
     for(int i = 0; i < dim; i++){
         for(int j =0; j < dim; j++){
