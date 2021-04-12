@@ -65,10 +65,10 @@ double getApproximatePiValueSequential(long long int elems){
     double approximatePiValue = 0;
 
     for(int i = 0; i < elems; i++){
-        approximatePiValue += (4 * pow(-1, i) / (2 * i + 1));
+        approximatePiValue += (pow(-1, i) / (2 * i + 1));
     }
 
-    return approximatePiValue;
+    return approximatePiValue * 4;
 }
 
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]){
     }
 
     numberOfElements = atoll(argv[1]);
-    
+
     numberOfThreads = atoll(argv[2]);
 
     GET_TIME(start);
@@ -134,17 +134,17 @@ int main(int argc, char *argv[]){
 
     long double approximatonErrorSequential = fabsl(sequentialPiApproximate - M_PI);
 
-    printf("O valor de Pi aproximado de forma concorrente é: %1.16Lf\n", concurrentPiApproximate);
+    printf("O valor de Pi aproximado de forma concorrente é: %1.16Lf\n\n", concurrentPiApproximate);
 
-    printf("O valor de Pi aproximado de forma sequencial é: %.15f\n", sequentialPiApproximate);
+    printf("O valor de Pi aproximado de forma sequencial é: %.15f\n\n", sequentialPiApproximate);
 
-    printf("O tempo de execucao sequencial de %lld elementos eh de %f segundos\n",numberOfElements, deltaSequential);
+    printf("O tempo de execucao sequencial de %lld elementos eh de %f segundos\n\n",numberOfElements, deltaSequential);
 
-    printf("O tempo de execucao concorrente com %lld elementos usando %d threads eh de %f segundos\n", numberOfElements, numberOfThreads, deltaConcurrent);
+    printf("O tempo de execucao concorrente com %lld elementos usando %d threads eh de %f segundos\n\n", numberOfElements, numberOfThreads, deltaConcurrent);
 
-    printf("O Valor de erro de forma concorrente é: %.15Lf\n", approximationErrorConcurrent);
+    printf("O Valor do erro de forma concorrente é: %.15Lf\n\n", approximationErrorConcurrent);
 
-    printf("O Valor de erro de forma sequencial  é: %.15Lf\n", approximatonErrorSequential);
+    printf("O Valor do erro de forma sequencial  é: %.15Lf\n\n", approximatonErrorSequential);
 
     free(tid);
     free(threadSum);
