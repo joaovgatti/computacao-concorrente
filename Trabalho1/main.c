@@ -3,35 +3,92 @@
 #include <pthread.h>
 #include <math.h>
 
-float func(float x){
+
+int numberOfThreads;
+int partitions;
+double upperLimit;
+double lowerLimit;
+double partitionSize;
+
+
+double func(float x){
     return logf(x);
 }
 
-float simpson(float lowerLimit, float upperLimit, int parts){
+int getBlockSize(){
+    return partitions / numberOfThreads;
+}
 
-    float partition = (upperLimit - lowerLimit) / parts;
+long int getStartInterval(long int id, int blockSize){
+    return id * blockSize;
+}
 
-    float result = 0;
-    for(int i = 1; i <= parts; i++){
+long int getEndInterval(long int id, long int start, int blockSize){
+    if(id == numberOfThreads){
+        return partitions;
+    }else{
+        return (start + blockSize);
+    }
+}
+
+void* simpsonIntegration(void *arg){
+
+    long int id = (long int) arg;
+
+    int blockSize = getBlockSize();
+
+    long int start = getStartInterval(id, blockSize);
+
+    long int end = getEndInterval(id, start, blockSize);
+
+    double *result = (double *)malloc(sizeof(double));
+    *result = 0;
+
+    for(long int i = start; i <= end; i++){
         if(i % 2 != 0){
-            result += 2 * func(i * partition + lowerLimit);
+            *result += 2 * func(i * partitionSize + lowerLimit);
         }else {
-            result +=  4 * func(i * partition + lowerLimit);
+            *result +=  4 * func(i * partitionSize + lowerLimit);
         }
     }
-    result = result * (partition / 3);
-    return result;
+    *result = *result * (partitionSize / 3);
+    pthread_exit((void*) result);
 
 
 }
-
-
 
 
 int main(int argc, char* argv[]) {
 
-    float integral = simpson(4,5.2, 6);
-    printf("%f", integral);
+    if(argc < 5){
+        printf("Digite: %s <Limite Inferior de Integracao> <Limite Superior de Integracao> <Numero de particionamento>"
+               " <Numero de Threads>\n", argv[0]);
+    }
+
+    lowerLimit = atoi(argv[1]);
+    upperLimit = atoi(argv[2]);
+    partitions = atoi(argv[3]);
+    numberOfThreads = atoi(argv[4]);
+
+    partitionSize = (upperLimit - lowerLimit)/ partitions;
+
+
+    pthread_t *tid = (pthread_t*)malloc(sizeof(pthread_t) * numberOfThreads);
+
+    for(long int i =0; i < numberOfThreads; i++){
+        if(pthread_create(tid + i, NULL, simpsonIntegration, (void *) i)){
+
+        }
+    }
+    double *threadReturn;
+    double sum = 0;
+    for(int i =0; i < numberOfThreads; i++){
+        if(pthread_join(*(tid + i), (void **) &threadReturn)){}
+        sum += *threadReturn;
+    }
+    free(threadReturn);
+
+    printf("result %.15f\n", sum);
 
     return 0;
 }
