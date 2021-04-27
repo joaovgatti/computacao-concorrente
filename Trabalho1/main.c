@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
+#include "timer.h"
 
 
 int numberOfThreads;
@@ -11,8 +12,8 @@ double lowerLimit;
 double partitionSize;
 
 
-double func(float x){
-    return logf(x);
+double func(double x){
+    return exp(exp(x));
 }
 
 int getBlockSize(){
@@ -57,13 +58,20 @@ void* simpsonIntegration(void *arg){
 
 }
 
+void testResults(){
+
+}
+
 
 int main(int argc, char* argv[]) {
 
     if(argc < 5){
         printf("Digite: %s <Limite Inferior de Integracao> <Limite Superior de Integracao> <Numero de particionamento>"
                " <Numero de Threads>\n", argv[0]);
+        return -1;
     }
+
+    double start, end, delta;
 
     lowerLimit = atoi(argv[1]);
     upperLimit = atoi(argv[2]);
@@ -72,6 +80,7 @@ int main(int argc, char* argv[]) {
 
     partitionSize = (upperLimit - lowerLimit)/ partitions;
 
+    GET_TIME(start);
 
     pthread_t *tid = (pthread_t*)malloc(sizeof(pthread_t) * numberOfThreads);
 
@@ -88,7 +97,15 @@ int main(int argc, char* argv[]) {
     }
     free(threadReturn);
 
-    printf("result %.15f\n", sum);
+    GET_TIME(end);
+
+    delta = end - start;
+
+    printf("O valor da integracao numerica da funcao escolhida com limite superior igual a %f, limite inferior igual a %f, com %d particionamentos eh: %f\n\n",
+           upperLimit, lowerLimit, partitions, sum);
+
+    printf("O tempo de execucao concorrente com %d particionamentos e utilizando %d thread eh: %f\n\n",
+           partitions, numberOfThreads, delta);
 
     return 0;
 }
