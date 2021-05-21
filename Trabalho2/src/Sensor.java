@@ -27,9 +27,9 @@ public class Sensor extends Thread {
 
                 if (temperature > 30) {
                     TemperatureInfo temperatureInfo = new TemperatureInfo(temperature, this.id, scannerId);
-                    this.monitor.enterReader(temperatureInfo);
+                    this.monitor.enterWriter(temperatureInfo);
                     this.monitor.saveTemperatureInfo(temperatureInfo);
-                    this.monitor.exitReader(temperatureInfo);
+                    this.monitor.exitWriter(temperatureInfo);
                 }
                 scannerId++;
                 sleep(delay);
