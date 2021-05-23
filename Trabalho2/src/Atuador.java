@@ -1,5 +1,6 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Atuador extends Thread {
 
@@ -19,32 +20,94 @@ public class Atuador extends Thread {
 
     private List<TemperatureInfo> getSensorInfo(){
 
-        List<TemperatureInfo> temperatureInfoList = this.monitor.getTemperaturesInfo();
+        Queue<TemperatureInfo> temperatureInfoList = this.monitor.getTemperaturesInfo();
 
-        //cria array para armazenar os valores do sensor especifico.
+        List<TemperatureInfo> sensorTemperatureList = new ArrayList<TemperatureInfo>();
 
-        //faz o for e filtra para o novo array os valores do sensor especifico.retorna esse novo array.
+        for (TemperatureInfo temperatureInfo : temperatureInfoList) {
 
-        for(int i = 0; i < temperatureInfoList.size(); i++){
+            if (temperatureInfo.getSensorId() == this.associatedSensor.getSensorID()) {
+                sensorTemperatureList.add(temperatureInfo);
+            }
+        }
+        return sensorTemperatureList;
+    }
+
+    private void checkRedAlert(List<TemperatureInfo> temperatureList){
+        if(temperatureList.size() < 5){
+            System.out.println("The sensor doesnt has sufficient info");
+            return;
+        }
+        for(int i = 0; i < 5; i++) {
+            if (temperatureList.get(i).getTemperature() < 35) {
+                    System.out.println("CNTP Conditions - All Good");
+                    return;
+                }
+        }
+        System.out.println("RED ALERT - WATCH OUT");
+    }
+
+    private void checkYellowAlert(List<TemperatureInfo> temperatureList){
+        if(temperatureList.size() < 15){
+            System.out.println("The sensor doesnt has sufficient info");
+            return;
+        }
+        List<Integer> highTemperaturesList = new ArrayList<Integer>();
+
+        for(int i = 0; i < 15; i++){
+            if(temperatureList.get(i).getTemperature() > 35){
+                highTemperaturesList.add(temperatureList.get(i).getTemperature());
+            }
+        }
+        if(highTemperaturesList.size() >= 5){
+            System.out.println("YELLOW ALERT - WATCH OUT");
+        }else{
+            System.out.println("CNTP Conditions - All good");
+        }
+    }
+
+    private int getMediumTemperature(Queue<TemperatureInfo> temperatureList){
+        if(temperatureList.size() < 1){
+            return 0;
+        }
+        int temperatureSum = 0;
+
+        for(TemperatureInfo temp : temperatureList){
+            temperatureSum += temp.getTemperature();
+        }
+
+        return temperatureSum / temperatureList.size();
+    }
+
+    public void run(){
+
+        for(;;){
+
+            this.monitor.enterReader(this.id);
+
+            List<TemperatureInfo> sensorTemperature = getSensorInfo();
+
+            checkRedAlert(sensorTemperature);
+
+            checkYellowAlert(sensorTemperature);
+
+            int overallTemperature = getMediumTemperature(this.monitor.getTemperaturesInfo());
+
+            System.out.println("The overall temperature is " + overallTemperature );
+
+            this.monitor.exitReader(this.id);
+
+            try {
+                sleep(timeOut);
+            }catch (InterruptedException ignored){}
 
         }
     }
 
-    /*
-    Uma vez com os valores do sensor, basta fazer os calculos para emitir sinal amarelo, vermelho ou nenhum.
-
-    Construir o run() com todas as funcoes la dentro, e com os metodos de entra leitor e sai leitor.
-    * */
 
 
 
-    private void checkYellowAlert(){
 
-        List<TemperatureInfo> temperatureInfoList = new LinkedList<TemperatureInfo>();
-
-
-
-    }
 
 
 

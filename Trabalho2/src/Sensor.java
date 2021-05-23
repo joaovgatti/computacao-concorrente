@@ -4,13 +4,18 @@ public class Sensor extends Thread {
 
     private final int delay = 1000;
 
-    private final int id;
+    private final int sensorID;
     private final LE monitor;
 
 
-    public Sensor(int id, LE monitor){
-        this.id = id;
+    public Sensor(int sensorID, LE monitor){
+        this.sensorID = sensorID;
         this.monitor = monitor;
+    }
+
+
+    public int getSensorID() {
+        return sensorID;
     }
 
     //testar se eh logico incluir no construtor;
@@ -26,7 +31,7 @@ public class Sensor extends Thread {
                 temperature = ThreadLocalRandom.current().nextInt(25, 41);
 
                 if (temperature > 30) {
-                    TemperatureInfo temperatureInfo = new TemperatureInfo(temperature, this.id, scannerId);
+                    TemperatureInfo temperatureInfo = new TemperatureInfo(temperature, this.sensorID, scannerId);
                     this.monitor.enterWriter(temperatureInfo);
                     this.monitor.saveTemperatureInfo(temperatureInfo);
                     this.monitor.exitWriter(temperatureInfo);
