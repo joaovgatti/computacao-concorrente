@@ -19,12 +19,9 @@ public class Main {
 
         for(int i =0; i < numberOfsensors; i++){
 
-            Sensor sensor = new Sensor(i, monitor);
+            sensors[i] = new Sensor(i, monitor);
 
-            sensors[i] = sensor;
-
-            actuators[i] = new Atuador(i,sensor, monitor);
-
+            actuators[i] = new Atuador(i,sensors[i], monitor);
 
             sensors[i].start();
             actuators[i].start();

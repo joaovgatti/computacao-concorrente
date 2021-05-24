@@ -4,8 +4,6 @@ import java.util.Queue;
 
 public class Atuador extends Thread {
 
-    private final int timeOut = 2000;
-
     private Sensor associatedSensor;
 
     private final LE monitor;
@@ -30,7 +28,7 @@ public class Atuador extends Thread {
                     return;
                 }
         }
-        System.out.println("RED ALERT - WATCH OUT");
+        System.out.println("----- RED ALERT - WATCH OUT -------");
     }
 
     private void checkYellowAlert(List<TemperatureInfo> temperatureList){
@@ -46,7 +44,7 @@ public class Atuador extends Thread {
             }
         }
         if(highTemperaturesList.size() >= 5){
-            System.out.println("YELLOW ALERT - WATCH OUT");
+            System.out.println("------YELLOW ALERT - WATCH OUT------");
         }else{
             System.out.println("CNTP Conditions - All good");
         }
@@ -100,7 +98,7 @@ public class Atuador extends Thread {
             this.monitor.exitReader(this.id);
 
             try {
-                sleep(500);
+                sleep(2000);
             }catch (InterruptedException ignored){}
 
         }

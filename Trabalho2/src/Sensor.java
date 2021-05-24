@@ -2,8 +2,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Sensor extends Thread {
 
-    private final int delay = 1000;
-
     private final int sensorID;
     private final LE monitor;
 
@@ -26,7 +24,6 @@ public class Sensor extends Thread {
         this.monitor.getTemperaturesInfo().add(temperaturesInfo);
     }
 
-    //testar se eh logico incluir no construtor;
     private int scannerId = 0;
 
     public void run() {
@@ -45,7 +42,7 @@ public class Sensor extends Thread {
                     this.monitor.exitWriter(temperatureInfo);
                 }
                 scannerId++;
-                sleep(500);
+                sleep(2000);
             }
         }catch (InterruptedException ignored){}
     }
