@@ -37,7 +37,7 @@ public class Sensor extends Thread {
                     this.monitor.exitWriter(temperatureInfo);
                 }
                 scannerId++;
-                sleep(delay);
+                sleep(2000);
             }
         }catch (InterruptedException ignored){}
     }

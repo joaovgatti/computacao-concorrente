@@ -98,7 +98,7 @@ public class Atuador extends Thread {
             this.monitor.exitReader(this.id);
 
             try {
-                sleep(timeOut);
+                sleep(2000);
             }catch (InterruptedException ignored){}
 
         }

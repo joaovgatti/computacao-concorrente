@@ -11,8 +11,8 @@ public class Main {
         numberOfActuators = numberOfsensors;
 
 
-        Thread[] sensors = new Thread[numberOfsensors];
-        Thread[] actuators = new Thread[numberOfActuators];
+        Sensor[] sensors = new Sensor[numberOfsensors];
+        Atuador[] actuators = new Atuador[numberOfActuators];
 
 
         LE monitor = new LE();
@@ -25,8 +25,9 @@ public class Main {
 
             actuators[i] = new Atuador(i,sensor, monitor);
 
-            sensors[i].start();
             actuators[i].start();
+            sensors[i].start();
+
         }
     }
 }

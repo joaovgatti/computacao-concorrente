@@ -25,7 +25,7 @@ public class LE {
                 System.out.println("atuador " + id + " bloqueado");
                 wait();
             }
-            this.writers++;
+            this.readers++;
             System.out.println("atuador " + id + " pode ser executado");
         }catch (InterruptedException ignored){}
     }
@@ -33,7 +33,7 @@ public class LE {
     public synchronized void exitReader(int id){
         this.readers--;
         if(this.readers == 0){
-            this.notify();
+            notifyAll();
         }
         System.out.println("atuador " + id + " saindo");
     }
@@ -46,7 +46,7 @@ public class LE {
             * leitor quer entrar.
             *
             * */
-            while(this.writers > 0){
+            while(this.writers > 0 || this.readers > 0){
                 System.out.println("sensor " + temperatureInfo.getSensorId() + " was blocked");
                 wait();
             }
