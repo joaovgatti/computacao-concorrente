@@ -60,14 +60,4 @@ public class LE {
         notifyAll();
         System.out.println("sensor " + temperatureInfo.getSensorId() + "is leaving");
     }
-
-    public synchronized void saveTemperatureInfo(TemperatureInfo temperatureInfo){
-        if(temperaturesInfo.size() == 60){
-            temperaturesInfo.poll();
-        }
-        temperaturesInfo.add(temperatureInfo);
-    }
-
-
-
 }

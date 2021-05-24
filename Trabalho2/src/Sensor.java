@@ -18,6 +18,14 @@ public class Sensor extends Thread {
         return sensorID;
     }
 
+
+    private void saveTemperatureInfo(TemperatureInfo temperaturesInfo){
+        if(this.monitor.getTemperaturesInfo().size() == 60){
+            this.monitor.getTemperaturesInfo().poll();
+        }
+        this.monitor.getTemperaturesInfo().add(temperaturesInfo);
+    }
+
     //testar se eh logico incluir no construtor;
     private int scannerId = 0;
 
@@ -33,11 +41,11 @@ public class Sensor extends Thread {
                 if (temperature > 30) {
                     TemperatureInfo temperatureInfo = new TemperatureInfo(temperature, this.sensorID, scannerId);
                     this.monitor.enterWriter(temperatureInfo);
-                    this.monitor.saveTemperatureInfo(temperatureInfo);
+                    saveTemperatureInfo(temperatureInfo);
                     this.monitor.exitWriter(temperatureInfo);
                 }
                 scannerId++;
-                sleep(2000);
+                sleep(500);
             }
         }catch (InterruptedException ignored){}
     }

@@ -25,9 +25,9 @@ public class Main {
 
             actuators[i] = new Atuador(i,sensor, monitor);
 
-            actuators[i].start();
-            sensors[i].start();
 
+            sensors[i].start();
+            actuators[i].start();
         }
     }
 }

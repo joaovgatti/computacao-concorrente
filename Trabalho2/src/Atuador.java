@@ -18,24 +18,10 @@ public class Atuador extends Thread {
         this.id = id;
     }
 
-    private List<TemperatureInfo> getSensorInfo(){
-
-        Queue<TemperatureInfo> temperatureInfoList = this.monitor.getTemperaturesInfo();
-
-        List<TemperatureInfo> sensorTemperatureList = new ArrayList<TemperatureInfo>();
-
-        for (TemperatureInfo temperatureInfo : temperatureInfoList) {
-
-            if (temperatureInfo.getSensorId() == this.associatedSensor.getSensorID()) {
-                sensorTemperatureList.add(temperatureInfo);
-            }
-        }
-        return sensorTemperatureList;
-    }
 
     private void checkRedAlert(List<TemperatureInfo> temperatureList){
         if(temperatureList.size() < 5){
-            System.out.println("The sensor doesnt has sufficient info");
+            //System.out.println("The sensor" + this.associatedSensor.getSensorID() + " doesnt has sufficient info");
             return;
         }
         for(int i = 0; i < 5; i++) {
@@ -49,7 +35,7 @@ public class Atuador extends Thread {
 
     private void checkYellowAlert(List<TemperatureInfo> temperatureList){
         if(temperatureList.size() < 15){
-            System.out.println("The sensor doesnt has sufficient info");
+            //System.out.println("The sensor" + this.associatedSensor.getSensorID() +" doesnt has sufficient info");
             return;
         }
         List<Integer> highTemperaturesList = new ArrayList<Integer>();
@@ -79,6 +65,22 @@ public class Atuador extends Thread {
         return temperatureSum / temperatureList.size();
     }
 
+
+    private List<TemperatureInfo> getSensorInfo(){
+
+        Queue<TemperatureInfo> temperatureInfoList = this.monitor.getTemperaturesInfo();
+
+        List<TemperatureInfo> sensorTemperatureList = new ArrayList<TemperatureInfo>();
+
+        for (TemperatureInfo temperatureInfo : temperatureInfoList) {
+
+            if (temperatureInfo.getSensorId() == this.associatedSensor.getSensorID()) {
+                sensorTemperatureList.add(temperatureInfo);
+            }
+        }
+        return sensorTemperatureList;
+    }
+
     public void run(){
 
         for(;;){
@@ -98,7 +100,7 @@ public class Atuador extends Thread {
             this.monitor.exitReader(this.id);
 
             try {
-                sleep(2000);
+                sleep(500);
             }catch (InterruptedException ignored){}
 
         }
