@@ -17,24 +17,22 @@ public class Atuador extends Thread {
     }
 
 
-    private void checkRedAlert(List<TemperatureInfo> temperatureList){
+    String checkRedAlert(List<TemperatureInfo> temperatureList){
         if(temperatureList.size() < 5){
             //System.out.println("The sensor" + this.associatedSensor.getSensorID() + " doesnt has sufficient info");
-            return;
+            return "";
         }
         for(int i = 0; i < 5; i++) {
             if (temperatureList.get(i).getTemperature() < 35) {
-                    System.out.println("CNTP Conditions - All Good [NO RED ALERTS]");
-                    return;
-                }
+                   return "CNTP Conditions - All good (RED)\n";
+            }
         }
-        System.out.println("----- RED ALERT - WATCH OUT -------");
+        return "----- RED ALERT - WATCH OUT -------\n";
     }
-
-    private void checkYellowAlert(List<TemperatureInfo> temperatureList){
+    String checkYellowAlert(List<TemperatureInfo> temperatureList){
         if(temperatureList.size() < 15){
             //System.out.println("The sensor" + this.associatedSensor.getSensorID() +" doesnt has sufficient info");
-            return;
+            return "";
         }
         List<Integer> highTemperaturesList = new ArrayList<Integer>();
 
@@ -44,13 +42,13 @@ public class Atuador extends Thread {
             }
         }
         if(highTemperaturesList.size() >= 5){
-            System.out.println("------YELLOW ALERT - WATCH OUT------ [NO YELLOW ALERTS]");
+            return "------YELLOW ALERT - WATCH OUT------\n";
         }else{
-            System.out.println("CNTP Conditions - All good");
+            return "CNTP Conditions - All good (YELLOW)\n";
         }
     }
 
-    private int getMediumTemperature(Queue<TemperatureInfo> temperatureList){
+    int getMediumTemperature(Queue<TemperatureInfo> temperatureList){
         if(temperatureList.size() < 1){
             return 0;
         }
@@ -64,7 +62,7 @@ public class Atuador extends Thread {
     }
 
 
-    private List<TemperatureInfo> getSensorInfo(){
+    List<TemperatureInfo> getSensorInfo(){
 
         Queue<TemperatureInfo> temperatureInfoList = this.monitor.getTemperaturesInfo();
 

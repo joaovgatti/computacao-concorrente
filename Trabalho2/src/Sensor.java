@@ -17,7 +17,7 @@ public class Sensor extends Thread {
     }
 
 
-    private void saveTemperatureInfo(TemperatureInfo temperaturesInfo){
+    void saveTemperatureInfo(TemperatureInfo temperaturesInfo){
         if(this.monitor.getTemperaturesInfo().size() == 60){
             this.monitor.getTemperaturesInfo().poll();
         }
