@@ -7,6 +7,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         int numberOfsensors, numberOfActuators;
+        System.out.println("Entre com o numero de sensores");
         numberOfsensors = scanner.nextInt();
         numberOfActuators = numberOfsensors;
 

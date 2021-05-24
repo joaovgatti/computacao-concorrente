@@ -47,7 +47,7 @@ public class LE {
             }
             this.writersQueue--;
             this.writers++;
-            System.out.println("sensor " + temperatureInfo.getSensorId() + " pode salvar a temperetura medida");
+            System.out.println("sensor " + temperatureInfo.getSensorId() + " pode salvar a temperatura medida");
         }catch (InterruptedException ignored){}
     }
 

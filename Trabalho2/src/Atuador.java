@@ -24,7 +24,7 @@ public class Atuador extends Thread {
         }
         for(int i = 0; i < 5; i++) {
             if (temperatureList.get(i).getTemperature() < 35) {
-                    System.out.println("CNTP Conditions - All Good");
+                    System.out.println("CNTP Conditions - All Good [NO RED ALERTS]");
                     return;
                 }
         }
@@ -44,7 +44,7 @@ public class Atuador extends Thread {
             }
         }
         if(highTemperaturesList.size() >= 5){
-            System.out.println("------YELLOW ALERT - WATCH OUT------");
+            System.out.println("------YELLOW ALERT - WATCH OUT------ [NO YELLOW ALERTS]");
         }else{
             System.out.println("CNTP Conditions - All good");
         }
